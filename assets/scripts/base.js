@@ -36,8 +36,7 @@ function sanitize(text) {
         "'": '&#x27;',
         "/": '&#x2F;',
     };
-    const reg = /[&<>"'/]/ig;
-    return text.replace(reg, (match)=>(map[match]));
+    return text.replace(/[&<>"'/]/g, (match) => map[match]);
   }
   
 
@@ -65,7 +64,7 @@ function loadAchats() {
     loadJSON("./assets/data/"+default_achats_file)
     .then(data => {
         for (var i in data.achats) {
-            createAchat(data.achats[i].nom, data.achats[i].prix, data.achats.img);
+            createAchat(data.achats[i].nom, data.achats[i].prix, data.achats[i].img);
         }
     })
     .catch(error => {
