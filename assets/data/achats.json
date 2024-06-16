@@ -2,11 +2,13 @@
     "achats": [
         {
             "nom":"Un burger",
-            "prix":"10€"
+            "prix":"10€",
+            "img":""
         },
         {
             "nom":"Un truc qui coute 1000€",
-            "prix":"1000€"
-        },
+            "prix":"1000€",
+            "img":""
+        }
     ]
 }
