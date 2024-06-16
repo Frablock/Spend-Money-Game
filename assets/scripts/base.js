@@ -11,6 +11,7 @@ var moneyElement;
 var nameToShow;
 var money;
 var buyZone;
+var headImg;
 
 // Charger les données depuis les fichiers JSON
 function loadJSON(filePath) {
@@ -47,8 +48,11 @@ function buy(item) {
 function loadMoney() {
     loadJSON("./assets/data/"+selectElement.value)
     .then(data => {
-        moneyElement.textContent = ""+data.total_money;
+        moneyElement.textContent = data.total_money+"€";
         money = data.total_money;
+        nameToShow.textContent = data.name;
+        headImg.src = data.img;
+        headImg.alt = sanitize(data.name);
     })
     .catch(error => {
         console.error('Erreur lors du chargement du fichier:', error);
@@ -56,7 +60,7 @@ function loadMoney() {
 }
 
 function createAchat(nom, prix, img) {
-    var html = "<div class=\"achat_div\"><img src=\""+sanitize(img)+"\"><h3>"+sanitize(nom)+" - "+sanitize(prix)+"</h3></div>";
+    var html = "<div class='achat_div' style='background-image: url(\"" + img + "\");'><p class=\"text_button\">" + sanitize(nom) + " - " + prix + "€</p></div>";
     buyZone.innerHTML += html;
 }
 
@@ -77,6 +81,7 @@ function load() {
     moneyElement = document.getElementById('money');
     nameToShow = document.getElementById('name');
     buyZone = document.getElementById('buyZone');
+    headImg = document.getElementById('headImg');
 
     for (var i in items) {
         var newItem = new Option(items[i].text, items[i].value);
@@ -84,13 +89,5 @@ function load() {
     }
 
     loadAchats();
-
-    loadJSON("./assets/data/"+default_file)
-    .then(data => {
-        moneyElement.textContent = ""+data.total_money;
-        money = data.total_money;
-    })
-    .catch(error => {
-        console.error('Erreur lors du chargement du fichier:', error);
-    });
+    loadMoney();
 }

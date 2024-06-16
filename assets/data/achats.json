@@ -2,13 +2,18 @@
     "achats": [
         {
             "nom":"Un burger",
-            "prix":"10€",
-            "img":""
+            "prix":10,
+            "img":"https://discode.fr/api/aa.php?image=Burger&id=9"
         },
         {
             "nom":"Un truc qui coute 1000€",
-            "prix":"1000€",
-            "img":""
+            "prix":1000,
+            "img":"https://discode.fr/api/aa.php?image=Money&id=9"
+        },
+        {
+            "nom":"Un député",
+            "prix":7493.30,
+            "img":"https://discode.fr/api/aa.php?image=Député+Macroniste&id=9"
         }
     ]
 }
