@@ -46,10 +46,27 @@ function changeBuyer(id) {
     menu.style.display = 'none';
     loadMoney();
 }
-  
 
-function buy(item) {
+function change(itemId, event) {
+    let elem = document.getElementById('numberInput'+itemId);
+    console.log(event.target.value);
 
+}
+
+function sell(itemId) {
+    let cost = liste_prix[itemId];
+    money += cost;
+    moneyElement.textContent = money +"€";
+}
+
+function buy(itemId) {
+    let cost = liste_prix[itemId];
+    if (money >= cost) {
+        money -= cost;
+        moneyElement.textContent = money +"€";
+    } else {
+        alert("Félicitations, Vous avez réussi à dépenser tout l'argent de "+nameToShow); // à changer
+    }
 }
 
 function loadMoney() {
@@ -70,7 +87,7 @@ function loadMoney() {
 
 function createAchat(id, nom, prix, img) {
     liste_prix[id] = prix;
-    var html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + prix + "€</p><div><button disabled=\"disabled\" class=\"item-sell\">Vendre</button> <input type=\"number\" class=\"item-input\"> <button class=\"item-buy\">Acheter</button></div></div>";
+    let html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + prix + "€</p><div><button disabled=\"disabled\" class=\"item-sell\" onclick=\"sell("+id+");\">Vendre</button> <input type=\"number\" class=\"item-input\" id=\"numberInput"+id+"\" onchange=\"change("+id+", event);\"> <button class=\"item-buy\" onclick=\"buy("+id+");\">Acheter</button></div></div>";
     buyZone.innerHTML += html;
 }
 
@@ -78,7 +95,7 @@ function loadAchats() {
     liste_prix = new Array(length_achats);
     loadJSON("./assets/data/"+default_achats_file)
     .then(data => {
-        for (var i in data.achats) {
+        for (let i in data.achats) {
             createAchat(i, data.achats[i].nom, data.achats[i].prix, data.achats[i].img);
         }
         length_achats = i+1;
@@ -97,8 +114,8 @@ function load() {
 
     loadJSON("./assets/data/"+default_file)
     .then(data => {
-        for (var i in data.buyers) {
-            var newItem = "<li onclick=\"changeBuyer("+i+");\" class=\"inline-container\"><img src=\""+data.buyers[i].img+"\" alt=\""+sanitize(data.buyers[i].name)+"\"><p>"+sanitize(data.buyers[i].name)+"</p></li>"
+        for (let i in data.buyers) {
+            let newItem = "<li onclick=\"changeBuyer("+i+");\" class=\"inline-container\"><img src=\""+data.buyers[i].img+"\" alt=\""+sanitize(data.buyers[i].name)+"\"><p>"+sanitize(data.buyers[i].name)+"</p></li>"
             menu.innerHTML += newItem;
         }
     })
