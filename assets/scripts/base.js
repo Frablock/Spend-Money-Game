@@ -88,7 +88,6 @@ function load() {
     loadJSON("./assets/data/"+default_file)
     .then(data => {
         for (var i in data.buyers) {
-            console.log("a");
             var newItem = "<li onclick=\"changeBuyer("+i+");\"><img src=\""+data.buyers[i].img+"\" alt=\""+sanitize(data.buyers[i].name)+"\"><p>"+sanitize(data.buyers[i].name)+"</p></li>"
             menu.innerHTML += newItem;
         }
@@ -102,6 +101,9 @@ function load() {
 }
 
 function showMenu() {
-    menu.style.display = 'block';
-    console.log('d');
+    if (menu.style.display == 'block') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'block';
+    }
 }
