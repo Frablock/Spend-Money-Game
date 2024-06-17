@@ -54,7 +54,9 @@ function formatPrice(price) {
     for (let i = 0; i < str.length; i += 3) {
         result += str.substr(i, 3) + '.';
     }
-    return result.split('').reverse().join('');
+    str = result.split('').reverse().join('');
+    str = str.substring(1);
+    return str;
 }
 
 function change(itemId, event) {
@@ -104,7 +106,7 @@ function buy(itemId) {
 function loadMoney() {
     loadJSON("./assets/data/"+default_file)
     .then(data => {
-        moneyElement.textContent = data.buyers[buyersID].total_money+"€";
+        moneyElement.textContent = formatPrice(data.buyers[buyersID].total_money)+"€";
         money = data.buyers[buyersID].total_money;
         nameToShow.textContent = sanitize(data.buyers[buyersID].name);
         headImg.src = data.buyers[buyersID].img;
