@@ -49,9 +49,6 @@ function changeBuyer(id) {
 
 function change(itemId, event) {
     let cost = liste_prix[itemId];
-    console.log(achats_liste);
-    console.log(cost);
-    if (event.target.value>0) {
         if (event.target.value > achats_liste[itemId]) {
             let calc = event.target.value - achats_liste[itemId];
             if (money >= cost * calc) {
@@ -67,7 +64,6 @@ function change(itemId, event) {
             moneyElement.textContent = money +"€";
             achats_liste[itemId] -=calc;
         }
-    }
 }
 
 function sell(itemId) {
