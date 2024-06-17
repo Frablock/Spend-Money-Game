@@ -48,22 +48,48 @@ function changeBuyer(id) {
 }
 
 function change(itemId, event) {
-    let elem = document.getElementById('numberInput'+itemId);
-    console.log(event.target.value);
-
+    let cost = liste_prix[itemId];
+    console.log(achats_liste);
+    console.log(cost);
+    if (event.target.value>0) {
+        if (event.target.value > achats_liste[itemId]) {
+            let calc = event.target.value - achats_liste[itemId];
+            if (money >= cost * calc) {
+                money -= cost * calc;
+                moneyElement.textContent = money +"€";
+                achats_liste[itemId] +=calc;
+            } else {
+                alert("Félicitations, Vous avez réussi à dépenser tout l'argent de "+nameToShow); // à changer
+            }
+        } else {
+            let calc = achats_liste[itemId] - event.target.value;
+            money += cost * calc;
+            moneyElement.textContent = money +"€";
+            achats_liste[itemId] -=calc;
+        }
+    }
 }
 
 function sell(itemId) {
+    let numberInput = document.getElementById("numberInput"+itemId);
     let cost = liste_prix[itemId];
-    money += cost;
-    moneyElement.textContent = money +"€";
+    let a = achats_liste[itemId];
+    if (a > 0) {
+        money += cost;
+        moneyElement.textContent = money +"€";
+        numberInput.valueAsNumber -= 1;
+        achats_liste[itemId] -=1;
+    }
 }
 
 function buy(itemId) {
     let cost = liste_prix[itemId];
+    let numberInput = document.getElementById("numberInput"+itemId);
     if (money >= cost) {
         money -= cost;
         moneyElement.textContent = money +"€";
+        numberInput.valueAsNumber += 1;
+        achats_liste[itemId] +=1;
     } else {
         alert("Félicitations, Vous avez réussi à dépenser tout l'argent de "+nameToShow); // à changer
     }
@@ -78,7 +104,7 @@ function loadMoney() {
         headImg.src = data.buyers[buyersID].img;
         headImg.alt = sanitize(data.buyers[buyersID].name);
 
-        achats_liste = new Array(length_achats);
+        achats_liste = Array(length_achats).fill(0)
     })
     .catch(error => {
         console.error('Erreur lors du chargement du fichier:', error);
@@ -87,7 +113,7 @@ function loadMoney() {
 
 function createAchat(id, nom, prix, img) {
     liste_prix[id] = prix;
-    let html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + prix + "€</p><div><button disabled=\"disabled\" class=\"item-sell\" onclick=\"sell("+id+");\">Vendre</button> <input type=\"number\" class=\"item-input\" id=\"numberInput"+id+"\" onchange=\"change("+id+", event);\"> <button class=\"item-buy\" onclick=\"buy("+id+");\">Acheter</button></div></div>";
+    let html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + prix + "€</p><div><button class=\"item-sell\" onclick=\"sell("+id+");\">Vendre</button> <input type=\"number\" class=\"item-input\" id=\"numberInput"+id+"\" onchange=\"change("+id+", event);\" value=\"0\" min=\"0\"> <button class=\"item-buy\" onclick=\"buy("+id+");\">Acheter</button></div></div>";
     buyZone.innerHTML += html;
 }
 
@@ -95,10 +121,10 @@ function loadAchats() {
     liste_prix = new Array(length_achats);
     loadJSON("./assets/data/"+default_achats_file)
     .then(data => {
-        for (let i in data.achats) {
+        for (var i in data.achats) {
             createAchat(i, data.achats[i].nom, data.achats[i].prix, data.achats[i].img);
         }
-        length_achats = i+1;
+        length_achats = data.achats.length;
     })
     .catch(error => {
         console.error('Erreur lors du chargement du fichier:', error);
