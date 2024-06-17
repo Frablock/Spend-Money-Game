@@ -1,10 +1,7 @@
-const default_file = "BernardArnaud.json";
+const default_file = "buyers.json";
 const default_achats_file = "achats.json";
 
-const items = [
-    {text: "Bernard Arnaud", value: "BernardArnaud.json"},
-    {text: "Vincent Bolloré", value: "Bollore.json"}
-];
+var buyersID = 0;
 
 var selectElement;
 var moneyElement;
@@ -46,13 +43,13 @@ function buy(item) {
 }
 
 function loadMoney() {
-    loadJSON("./assets/data/"+selectElement.value)
+    loadJSON("./assets/data/"+default_file)
     .then(data => {
-        moneyElement.textContent = data.total_money+"€";
-        money = data.total_money;
-        nameToShow.textContent = data.name;
-        headImg.src = data.img;
-        headImg.alt = sanitize(data.name);
+        moneyElement.textContent = data.buyers[buyersID].total_money+"€";
+        money = data.buyers[buyersID].total_money;
+        nameToShow.textContent = sanitize(data.buyers[buyersID].name);
+        headImg.src = data.buyers[buyersID].img;
+        headImg.alt = sanitize(data.buyers[buyersID].name);
     })
     .catch(error => {
         console.error('Erreur lors du chargement du fichier:', error);
@@ -77,15 +74,17 @@ function loadAchats() {
 }
 
 function load() {
-    selectElement = document.getElementById('select');
+    selectElement = document.getElementById('selectElement');
     moneyElement = document.getElementById('money');
     nameToShow = document.getElementById('name');
     buyZone = document.getElementById('buyZone');
     headImg = document.getElementById('headImg');
 
-    for (var i in items) {
-        var newItem = new Option(items[i].text, items[i].value);
-        selectElement.options.add(newItem);
+    var data = loadJSON("./assets/data/"+default_file);
+
+    for (var i in data.buyers) {
+        var newItem = "<li><img src=\""+data.buyers[i].img+"\" alt=\""+sanitize(data.buyers[i].name)+"\"><p>"+sanitize(data.buyers[i].name)+"</p></li>"
+        selectElement.innerHTML += newItem;
     }
 
     loadAchats();
