@@ -2,12 +2,17 @@
     "buyers":[
         {
         "name" : "Bernard Arnaud",
-        "total_money": 400200000000,
+        "total_money": 233000000000,
         "img": "https://discode.fr/api/aa.php?image=Bernard+Arnaud&id=9"
     },
     {
+        "name" : "Rodolphe Saadé",
+        "total_money": 39000000000,
+        "img": "https://discode.fr/api/aa.php?image=Rodolphe+Saadé&id=9"
+    },
+    {
         "name" : "Vincent Bolloré",
-        "total_money": 9300000000,
+        "total_money": 11100000000,
         "img": "https://discode.fr/api/aa.php?image=Vincent+Bollore&id=9"
     }
 ]
