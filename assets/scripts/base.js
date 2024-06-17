@@ -47,13 +47,23 @@ function changeBuyer(id) {
     loadMoney();
 }
 
+function formatPrice(price) {
+    let str = price.toString();
+    str = str.split('').reverse().join('');
+    let result = '';
+    for (let i = 0; i < str.length; i += 3) {
+        result += str.substr(i, 3) + '.';
+    }
+    return result.split('').reverse().join('');
+}
+
 function change(itemId, event) {
     let cost = liste_prix[itemId];
         if (event.target.value > achats_liste[itemId]) {
             let calc = event.target.value - achats_liste[itemId];
             if (money >= cost * calc) {
                 money -= cost * calc;
-                moneyElement.textContent = money +"€";
+                moneyElement.textContent = formatPrice(money) +"€";
                 achats_liste[itemId] +=calc;
             } else {
                 alert("Félicitations, Vous avez réussi à dépenser tout l'argent de "+nameToShow); // à changer
@@ -61,7 +71,7 @@ function change(itemId, event) {
         } else {
             let calc = achats_liste[itemId] - event.target.value;
             money += cost * calc;
-            moneyElement.textContent = money +"€";
+            moneyElement.textContent = formatPrice(money) +"€";
             achats_liste[itemId] -=calc;
         }
 }
@@ -109,7 +119,7 @@ function loadMoney() {
 
 function createAchat(id, nom, prix, img) {
     liste_prix[id] = prix;
-    let html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + prix + "€</p><div><button class=\"item-sell\" onclick=\"sell("+id+");\">Vendre</button> <input type=\"number\" class=\"item-input\" id=\"numberInput"+id+"\" onchange=\"change("+id+", event);\" value=\"0\" min=\"0\"> <button class=\"item-buy\" onclick=\"buy("+id+");\">Acheter</button></div></div>";
+    let html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + formatPrice(prix) + "€</p><div><button class=\"item-sell\" onclick=\"sell("+id+");\">Vendre</button> <input type=\"number\" class=\"item-input\" id=\"numberInput"+id+"\" onchange=\"change("+id+", event);\" value=\"0\" min=\"0\"> <button class=\"item-buy\" onclick=\"buy("+id+");\">Acheter</button></div></div>";
     buyZone.innerHTML += html;
 }
 
