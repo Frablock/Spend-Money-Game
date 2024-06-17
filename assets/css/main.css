@@ -59,8 +59,8 @@ body {
     padding: 20px;
     text-align: center;
   }
-  #buyZone div div {
-    z-index: 0;
+  .action {
+    z-index: 2;
   }
   @media (max-width: 768px) {
 #buyZone {

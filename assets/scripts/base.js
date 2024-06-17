@@ -123,7 +123,7 @@ function loadMoney() {
 
 function createAchat(id, nom, prix, img) {
     liste_prix[id] = prix;
-    let html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + formatPrice(prix) + "€</p><div><button class=\"item-sell\" onclick=\"sell("+id+");\">Vendre</button> <input type=\"number\" class=\"item-input\" id=\"numberInput"+id+"\" onchange=\"change("+id+", event);\" value=\"0\" min=\"0\"> <button class=\"item-buy\" onclick=\"buy("+id+");\">Acheter</button></div></div>";
+    let html = "<div class='achat_div' style='background-image: url(\"" + img + "\");' id=\"achat_div"+id+"\"><p class=\"text_button\">" + sanitize(nom) + " - " + formatPrice(prix) + "€</p><div class=\"action\"><button class=\"item-sell\" onclick=\"sell("+id+");\">Vendre</button> <input type=\"number\" class=\"item-input\" id=\"numberInput"+id+"\" onchange=\"change("+id+", event);\" value=\"0\" min=\"0\"> <button class=\"item-buy\" onclick=\"buy("+id+");\">Acheter</button></div></div>";
     buyZone.innerHTML += html;
 }
 
