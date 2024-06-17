@@ -61,21 +61,23 @@ function formatPrice(price) {
 
 function change(itemId, event) {
     let cost = liste_prix[itemId];
-        if (event.target.value > achats_liste[itemId]) {
-            let calc = event.target.value - achats_liste[itemId];
-            if (money >= cost * calc) {
-                money -= cost * calc;
-                moneyElement.textContent = formatPrice(money) +"€";
-                achats_liste[itemId] +=calc;
-            } else {
-                alert("Félicitations, Vous avez réussi à dépenser tout l'argent de "+nameToShow); // à changer
-            }
-        } else {
-            let calc = achats_liste[itemId] - event.target.value;
-            money += cost * calc;
+    let numberInput = document.getElementById("numberInput"+itemId);
+    if (event.target.value > achats_liste[itemId]) {
+        let calc = event.target.value - achats_liste[itemId];
+        if (money >= cost * calc) {
+            money -= cost * calc;
             moneyElement.textContent = formatPrice(money) +"€";
-            achats_liste[itemId] -=calc;
+            achats_liste[itemId] +=calc;
+        } else {
+            alert("Félicitations, Vous avez réussi à dépenser tout l'argent de "+nameToShow); // à changer
         }
+    } else {
+        let calc = achats_liste[itemId] - event.target.value;
+        money += cost * calc;
+        moneyElement.textContent = formatPrice(money) +"€";
+        achats_liste[itemId] -=calc;
+    }
+    numberInput.valueAsNumber = achats_liste[itemId];
 }
 
 function sell(itemId) {
