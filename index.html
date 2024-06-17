@@ -104,12 +104,10 @@
   display: inline-block;
 }
 
-.dropdown-content {
-  display: none;
+#selectElement {
   position: absolute;
   min-width: 160px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  z-index: 5;
 }
 
 .dropdown-content li {
@@ -135,7 +133,10 @@
     <body onload="load();">
       <nav class="top-nav">
         <div class="dropdown">
-          <button class="dropdown-button"><img id="headImg" src="" alt=""><p class="name" id="name"></p></button>
+          <div class="dropdown-button" onclick="showMenu();">
+            <img id="headImg" src="" alt="">
+            <p class="name" id="name"></p>
+          </div>
           <ul class="dropdown-content" id="selectElement">
           </ul>
         </div>
@@ -152,21 +153,5 @@
 
         <noscript>Activez JavaScript</noscript>
         <script src="./assets/scripts/base.js"></script>
-        <script>
-          document.querySelectorAll('.dropdown-content li').forEach(item => {
-  item.addEventListener('click', function() {
-    // Perform action based on the clicked option
-    console.log(this.textContent);
-    // Hide the dropdown content
-    document.querySelector('.dropdown-content').style.display = 'none';
-  });
-});
-
-// Show the dropdown content when the button is clicked
-document.querySelector('.dropdown-button').addEventListener('click', function() {
-  document.querySelector('.dropdown-content').style.display = 'block';
-});
-
-        </script>
     </body>
 </html>

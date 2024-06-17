@@ -3,12 +3,12 @@ const default_achats_file = "achats.json";
 
 var buyersID = 0;
 
-var selectElement;
 var moneyElement;
 var nameToShow;
 var money;
 var buyZone;
 var headImg;
+var menu;
 
 // Charger les données depuis les fichiers JSON
 function loadJSON(filePath) {
@@ -36,6 +36,11 @@ function sanitize(text) {
     };
     return text.replace(/[&<>"'/]/g, (match) => map[match]);
   }
+
+function changeBuyer(id) {
+    buyersID = id;
+    menu.style.display = 'none';
+}
   
 
 function buy(item) {
@@ -74,19 +79,29 @@ function loadAchats() {
 }
 
 function load() {
-    selectElement = document.getElementById('selectElement');
     moneyElement = document.getElementById('money');
     nameToShow = document.getElementById('name');
     buyZone = document.getElementById('buyZone');
     headImg = document.getElementById('headImg');
+    menu = document.getElementById('selectElement');
 
-    var data = loadJSON("./assets/data/"+default_file);
-
-    for (var i in data.buyers) {
-        var newItem = "<li><img src=\""+data.buyers[i].img+"\" alt=\""+sanitize(data.buyers[i].name)+"\"><p>"+sanitize(data.buyers[i].name)+"</p></li>"
-        selectElement.innerHTML += newItem;
-    }
+    loadJSON("./assets/data/"+default_file)
+    .then(data => {
+        for (var i in data.buyers) {
+            console.log("a");
+            var newItem = "<li onclick=\"changeBuyer("+i+");\"><img src=\""+data.buyers[i].img+"\" alt=\""+sanitize(data.buyers[i].name)+"\"><p>"+sanitize(data.buyers[i].name)+"</p></li>"
+            menu.innerHTML += newItem;
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors du chargement du fichier:', error);
+    });
 
     loadAchats();
     loadMoney();
+}
+
+function showMenu() {
+    menu.style.display = 'block';
+    console.log('d');
 }
